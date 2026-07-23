@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Relisten Hide List",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Skip songs on Relisten by keyword. Add words to a hide list, toggle them on or off, and hide or unhide tracks in a click.",
   "permissions": ["storage"],
   "icons": {
@@ -11,7 +11,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://relisten.net/*", "*://*.relisten.net/*"],
+      "matches": ["https://relisten.net/*"],
       "js": ["content.js"],
       "css": ["styles.css"],
       "run_at": "document_idle"
