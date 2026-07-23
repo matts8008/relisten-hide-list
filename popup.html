@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relisten Hide List</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <h1>Hide List</h1>
+      <label class="toggle">
+        <input id="enabled" type="checkbox">
+        <span>Enabled on Relisten</span>
+      </label>
+
+      <div class="add">
+        <input id="add-input" type="text" placeholder="Add a word to hide (e.g. dire)" spellcheck="false">
+        <button id="add-btn" type="button">Add</button>
+      </div>
+
+      <div id="list" class="list"></div>
+
+      <p>Any song whose title matches a <strong>checked</strong> word is skipped on Relisten. Uncheck a word to reverse it without deleting. Plain words match anywhere; wildcards: <code>*</code> any text, <code>?</code> one character.</p>
+      <div id="saved" aria-live="polite"></div>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Relisten Hide List",
+  "version": "1.0.0",
+  "description": "Auto-skips Relisten tracks whose titles match your hide words. Toggle words on/off and hide or unhide songs right from the track list.",
+  "permissions": ["storage"],
+  "host_permissions": ["*://relisten.net/*", "*://*.relisten.net/*"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://relisten.net/*", "*://*.relisten.net/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Relisten Hide List",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+}
