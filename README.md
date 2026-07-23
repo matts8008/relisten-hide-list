@@ -1,6 +1,6 @@
 # Relisten Hide List
 
-A Chrome extension that lets you **skip songs on [Relisten](https://relisten.net)**. Add words to your hide list — like `tuning`, `drums`, or `space` — and any matching song is skipped automatically. Your list **saves across every Grateful Dead show**.
+A Chrome extension that lets you **skip songs on [Relisten](https://relisten.net)**. Add words to your hide list — like `tuning`, `drums`, or `space` — and any matching song is skipped automatically. Works for **every band on Relisten** (Phish, the Grateful Dead, and thousands more), and your list **saves across every show**.
 
 **[Website](https://matts8008.github.io/relisten-hide-list/) · [Download](https://github.com/matts8008/relisten-hide-list/releases/latest)** · Chrome Web Store: _coming soon_
 
