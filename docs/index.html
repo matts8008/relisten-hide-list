@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relisten Hide List</title>
+    <meta name="description" content="A Chrome extension that lets you skip songs on Relisten. Your hide list saves across every Grateful Dead show.">
+    <link rel="icon" href="icon.png">
+    <style>
+      :root {
+        --ink: #111827;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --accent: #ef4444;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: #f9fafb;
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.5;
+      }
+      .wrap { max-width: 640px; margin: 0 auto; padding: 56px 20px 72px; }
+      .badge {
+        width: 72px; height: 72px; border-radius: 18px; display: block; margin: 0 auto 20px;
+        box-shadow: 0 10px 30px rgba(17, 24, 39, 0.22);
+      }
+      h1 { font-size: 30px; text-align: center; margin: 0 0 10px; letter-spacing: -0.3px; }
+      .tagline { text-align: center; font-size: 17px; color: var(--muted); margin: 0 auto 28px; max-width: 460px; }
+      .tagline strong { color: var(--ink); }
+      .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+        font-weight: 600; font-size: 15px; padding: 11px 18px; border-radius: 10px;
+        border: 1px solid var(--line);
+      }
+      .btn-primary { background: var(--ink); color: #f9fafb; border-color: var(--ink); }
+      .btn-ghost { background: #fff; color: var(--ink); }
+      .btn-soon { background: #fff; color: var(--muted); border-style: dashed; cursor: default; }
+      .card {
+        background: #fff; border: 1px solid var(--line); border-radius: 14px;
+        padding: 22px 24px; margin-bottom: 18px;
+      }
+      .card h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 0 0 14px; }
+      ol, ul { margin: 0; padding-left: 20px; }
+      li { margin-bottom: 8px; }
+      code { background: #f3f4f6; border-radius: 4px; padding: 1px 5px; font-size: 13px; }
+      .foot { text-align: center; color: var(--muted); font-size: 13px; margin-top: 32px; }
+      .foot a { color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <img class="badge" src="icon.png" alt="Relisten Hide List icon">
+      <h1>Relisten Hide List</h1>
+      <p class="tagline">A Chrome extension that lets you <strong>skip songs on Relisten</strong>. Add words to your hide list &mdash; like <strong>tuning</strong>, <strong>drums</strong>, or <strong>space</strong> &mdash; and matching songs are skipped automatically. Your list <strong>saves across every Grateful Dead show</strong>.</p>
+
+      <div class="cta">
+        <a class="btn btn-primary" href="https://github.com/matts8008/relisten-hide-list/releases/latest">Download</a>
+        <a class="btn btn-ghost" href="https://github.com/matts8008/relisten-hide-list">View on GitHub</a>
+        <span class="btn btn-soon">Chrome Web Store &mdash; coming soon</span>
+      </div>
+
+      <div class="card">
+        <h2>How to use</h2>
+        <ul>
+          <li>Click the <strong>Hide</strong> pill by the player and add a word &mdash; try <code>tuning</code>, <code>drums</code>, or <code>space</code>.</li>
+          <li>Any song whose title matches is skipped and struck through.</li>
+          <li>Uncheck a word to turn it off without deleting it.</li>
+          <li>Hover any track to <strong>Hide</strong> or <strong>Unhide</strong> it on the spot.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Install</h2>
+        <ol>
+          <li><a href="https://github.com/matts8008/relisten-hide-list/releases/latest">Download the ZIP</a> and unzip it.</li>
+          <li>Open <code>chrome://extensions</code> and turn on <strong>Developer mode</strong>.</li>
+          <li>Click <strong>Load unpacked</strong> and select the unzipped folder.</li>
+          <li>Open a Relisten show and start playing.</li>
+        </ol>
+      </div>
+
+      <p class="foot">Open source (MIT) &middot; <a href="https://github.com/matts8008/relisten-hide-list">matts8008/relisten-hide-list</a></p>
+    </div>
+  </body>
+</html>
