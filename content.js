@@ -150,30 +150,25 @@
   // ---- Player / DOM ------------------------------------------------------
 
   function getPlayer() {
-    return document.querySelector(".player") || document.querySelector(".song-title")?.closest(".content");
+    return document.querySelector(".song-title")?.closest(".content") || null;
   }
 
   function getCurrentTitle() {
-    const title = document.querySelector(".player .song-title, .song-title")?.textContent?.trim();
+    // Relisten renders the active track title in `.song-title` (player bar).
+    const title = document.querySelector(".song-title")?.textContent?.trim();
     return title || "";
   }
 
   function getNextButton() {
-    const selectors = [
-      ".player .duration svg",
-      ".player .duration",
-      "[aria-label='Next']",
-      "[title='Next']",
-      "button[aria-label*='Next' i]",
-      "button[title*='Next' i]"
-    ];
-
-    for (const selector of selectors) {
-      const el = document.querySelector(selector);
-      if (el) return el;
-    }
-
-    return null;
+    // Relisten's player "next" control is a lucide FastForwardIcon <svg> that
+    // calls player.next(); it has no aria-label/title. It lives in the
+    // right-hand `.timing.duration` block (the rewind icon is the left `.timing`).
+    return (
+      document.querySelector('svg[class*="fast-forward" i]') ||
+      document.querySelector(".timing.duration svg") ||
+      document.querySelector('[aria-label*="next" i]') ||
+      null
+    );
   }
 
   function stopEvent(event) {
@@ -365,12 +360,14 @@
 
   function clickNext() {
     const now = Date.now();
-    if (now - state.lastSkipAt < 1200) return false;
+    if (now - state.lastSkipAt < 600) return false;
 
     const button = getNextButton();
     if (!button) return false;
 
     state.lastSkipAt = now;
+    // React binds onClick on the svg via root delegation, so a bubbling click
+    // on the icon triggers player.next().
     button.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, view: window }));
     return true;
   }
@@ -532,13 +529,17 @@
       markTrackList(true);
     });
 
+    // Fast lane: react to track changes quickly so a hidden track is skipped
+    // before much of it plays. Cheap (reads the title, maybe one click).
+    setInterval(() => {
+      if (!isBareShowPage()) maybeSkipCurrentTrack();
+    }, 600);
+
+    // Slow lane: UI, track-list marking, and auto-start on bare show pages.
     setInterval(() => {
       render();
       markTrackList();
       clickFirstAllowedTrackOnBareShow();
-      if (!isBareShowPage()) {
-        maybeSkipCurrentTrack();
-      }
     }, 1500);
 
     window.addEventListener("resize", render);
