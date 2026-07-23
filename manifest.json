@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Relisten Hide List",
   "version": "1.0.0",
-  "description": "Auto-skips Relisten tracks whose titles match your hide words. Toggle words on/off and hide or unhide songs right from the track list.",
+  "description": "Skip songs on Relisten by keyword. Add words to a hide list, toggle them on or off, and hide or unhide tracks in a click.",
   "permissions": ["storage"],
   "host_permissions": ["*://relisten.net/*", "*://*.relisten.net/*"],
   "icons": {
