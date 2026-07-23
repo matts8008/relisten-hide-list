@@ -15,6 +15,8 @@
     lastHref: "",
     lastSkipAt: 0,
     skipCount: 0,
+    skipTarget: "",
+    skipAttemptAt: 0,
     lastMarkKey: "",
     lastListSig: "__init__",
     lastAutoStartPath: "",
@@ -359,17 +361,39 @@
   // ---- Skipping ----------------------------------------------------------
 
   function clickNext() {
-    const now = Date.now();
-    if (now - state.lastSkipAt < 600) return false;
-
     const button = getNextButton();
     if (!button) return false;
-
-    state.lastSkipAt = now;
     // React binds onClick on the svg via root delegation, so a bubbling click
     // on the icon triggers player.next().
     button.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, view: window }));
     return true;
+  }
+
+  // Find the currently-playing track's position in the setlist column.
+  function activeTrackIndex(links) {
+    const active = normalize(getCurrentTitle());
+    if (!active) return -1;
+    return links.findIndex((link) => normalize(getTitleFromLink(link)) === active);
+  }
+
+  // Jump straight to the next NON-hidden track in the column. This skips a whole
+  // run of hidden tracks in one hop, so Relisten only has to load the keeper
+  // (instead of buffering each hidden track on the way). Returns true if it acted.
+  function skipViaColumn() {
+    const links = getSongLinks();
+    if (!links.length) return false;
+
+    const idx = activeTrackIndex(links);
+    if (idx < 0) return false;
+
+    for (let i = idx + 1; i < links.length; i += 1) {
+      const title = getTitleFromLink(links[i]);
+      if (title && !titleHidden(title)) {
+        links[i].click();
+        return true;
+      }
+    }
+    return false;
   }
 
   function maybeSkipCurrentTrack() {
@@ -378,22 +402,37 @@
     const title = getCurrentTitle();
     if (!title) return;
 
-    const href = location.href;
-    if (title === state.lastTitle && href === state.lastHref) return;
-
-    state.lastTitle = title;
-    state.lastHref = href;
-
     if (!titleHidden(title)) {
-      state.skipCount = 0; // a track was kept: reset the consecutive-skip guard
+      // Landed on a keeper — clear skip state.
+      state.skipTarget = "";
+      state.skipCount = 0;
       return;
     }
+
+    const now = Date.now();
+
+    // Global rate limit between skip actions.
+    if (now - state.lastSkipAt < 700) return;
+
+    // Retry guard: if we already tried to skip THIS exact hidden track, wait a
+    // beat before trying again. This is what makes loading tracks work — the
+    // first click can be swallowed while buffering, so we retry until it takes,
+    // but we don't spam a click that already landed.
+    if (title === state.skipTarget && now - state.skipAttemptAt < 1500) return;
 
     if (state.skipCount >= Number(state.settings.maxConsecutiveSkips || DEFAULT_SETTINGS.maxConsecutiveSkips)) {
       return;
     }
 
-    if (clickNext()) state.skipCount += 1;
+    state.skipTarget = title;
+    state.skipAttemptAt = now;
+
+    // Prefer the direct column jump; fall back to the player's next button.
+    const acted = skipViaColumn() || clickNext();
+    if (acted) {
+      state.lastSkipAt = now;
+      state.skipCount += 1;
+    }
   }
 
   // ---- Track-list marking ------------------------------------------------
